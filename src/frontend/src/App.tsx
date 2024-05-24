@@ -1,23 +1,20 @@
 import { useEffect, useState } from "react";
-import { frontendApiClient } from "../../backend/frontendApiClient";
+import { useApiClient } from "./lib/hooks/useApiClient";
 
 function App() {
-  const [rpcData, setRpcData] = useState("");
+  const [welcomeMsg, setWelcomeMsg] = useState("");
+  const apiClient = useApiClient();
 
   useEffect(() => {
     const getData = async () => {
-      const res = await frontendApiClient.api.$get();
-      const data = await res.text();
-      setRpcData(data);
+      const res = await apiClient.api.$get();
+      const text = await res.text();
+      setWelcomeMsg(text);
     };
     getData();
-  }, []);
+  });
 
-  return (
-    <>
-      <div>Hello World from {rpcData}</div>
-    </>
-  );
+  return <div>Hello World - {welcomeMsg}</div>;
 }
 
 export default App;
