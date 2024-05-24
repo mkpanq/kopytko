@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build"
+  },
+  "dependencies": {
+    "turbo": "^1.13.3"
+  }
+}
