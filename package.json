@@ -5,6 +5,7 @@
     "build": "turbo run build"
   },
   "dependencies": {
-    "turbo": "^1.13.3"
+    "turbo": "^1.13.3",
+    "hono": "^4.3.11"
   }
 }
