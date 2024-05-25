@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-// Configuration for vite.config.ts
+// Configuration for vite.config.ts during server start
 const VITE_CONFIG_ENVS = z
   .object({
     SERVER_PORT: z.string().transform(Number),

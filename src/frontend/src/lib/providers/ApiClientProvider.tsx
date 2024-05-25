@@ -2,6 +2,7 @@ import { createContext } from "react";
 import { rpcApiClient } from "../../../../backend/shared/apiClient";
 
 export const ApiClientContext = createContext(rpcApiClient);
+
 export const ApiClientProvider = ({
   children,
 }: {

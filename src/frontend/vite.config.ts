@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
-import VITE_CONFIG_ENVS from "./src/lib/env-validation";
+import VITE_CONFIG_ENVS from "./src/lib/validators/config-env-validation";
 import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
 
 const DEFAULT_CONFIG = {
