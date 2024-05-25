@@ -14,7 +14,7 @@ function App() {
     getData();
   });
 
-  return <div>Hello World - {welcomeMsg}</div>;
+  return <div className="text-3xl font-thin">Hello World - {welcomeMsg}</div>;
 }
 
 export default App;
