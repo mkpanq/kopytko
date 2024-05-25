@@ -1,10 +1,15 @@
 {
   "private": true,
   "scripts": {
-    "dev": "turbo run dev",
+    "dev": "dotenv -- turbo run dev",
     "build": "turbo run build"
   },
   "dependencies": {
-    "turbo": "^1.13.3"
+    "dotenv-cli": "^7.4.2",
+    "turbo": "^1.13.3",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17"
   }
 }
