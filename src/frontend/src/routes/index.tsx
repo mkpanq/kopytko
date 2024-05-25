@@ -1,7 +1,12 @@
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { useApiClient } from "./lib/hooks/useApiClient";
+import { useApiClient } from "../lib/hooks/useApiClient";
 
-function App() {
+export const Route = createFileRoute("/")({
+  component: Index,
+});
+
+function Index() {
   const [welcomeMsg, setWelcomeMsg] = useState("");
   const apiClient = useApiClient();
 
@@ -11,10 +16,9 @@ function App() {
       const text = await res.text();
       setWelcomeMsg(text);
     };
+
     getData();
   });
 
   return <div className="text-3xl font-thin">Hello World - {welcomeMsg}</div>;
 }
-
-export default App;
