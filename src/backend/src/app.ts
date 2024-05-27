@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { rootRouter } from "./routes/_router";
-import BACKEND_ENVS from "./lib/env-validation";
+import BACKEND_ENVS from "../env/backend";
 
 const API_BASE_PATH = BACKEND_ENVS.API_BASE_PATH;
 

@@ -1,6 +1,6 @@
 import { serve } from "@hono/node-server";
 import app from "./app";
-import BACKEND_ENVS from "./lib/env-validation";
+import BACKEND_ENVS from "../env/backend";
 
 const port = BACKEND_ENVS.SERVER_PORT;
 

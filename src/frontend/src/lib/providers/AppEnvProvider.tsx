@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { FRONTEND_ENVS } from "../validators/app-env-validation";
+import { FRONTEND_ENVS } from "../../../env/frontend";
 
 export const AppEnvContext = createContext(FRONTEND_ENVS);
 export const AppEnvProvider = ({ children }: { children: React.ReactNode }) => {
