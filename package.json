@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "dotenv -- turbo run dev",
     "build": "turbo run build",
-    "db:migrate": "dotenv -- turbo run db:migrate"
+    "db:migrate": "dotenv -- turbo run db:migrate --experimental-ui"
   },
   "dependencies": {
     "dotenv-cli": "^7.4.2",

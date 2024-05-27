@@ -1,6 +1,6 @@
 {
-  "id": "dbcc3219-0d6f-48de-9dbd-8deb5c8ef69c",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "1608298c-b217-47b4-be49-e149a8b8e9fd",
+  "prevId": "dbcc3219-0d6f-48de-9dbd-8deb5c8ef69c",
   "version": "6",
   "dialect": "postgresql",
   "tables": {
@@ -14,8 +14,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "name": {
-          "name": "name",
+        "username": {
+          "name": "username",
           "type": "text",
           "primaryKey": false,
           "notNull": true
