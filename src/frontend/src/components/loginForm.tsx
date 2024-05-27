@@ -3,9 +3,7 @@ import {
   SubmitHandler,
   FormProvider,
   Controller,
-  ControllerRenderProps,
 } from "react-hook-form";
-import { cn } from "../lib/utils";
 
 // TODO: Add Zod-validator with drizzle models later !
 type TLoginForm = {
@@ -26,60 +24,55 @@ export function LoginForm() {
 
   return (
     <div className="flex flex-col gap-5 mx-auto max-w-xl">
-      <div className="text-xl">Hello ! Log in !</div>
+      <div className="text-xl">Log in</div>
       <FormProvider {...loginForm}>
-        <form onSubmit={loginForm.handleSubmit(onSubmit)}>
+        <form
+          onSubmit={loginForm.handleSubmit(onSubmit)}
+          className="flex flex-col gap-4 w-full"
+        >
           <Controller
             name="email"
             control={loginForm.control}
-            render={({ field }) => (
-              <Input
-                label="Email"
-                type="email"
-                placeholder="Your email address"
-                field={field}
-              />
-            )}
+            render={({ field }) => {
+              return (
+                <label className="form-control">
+                  <div className="label">
+                    <span className="label-text">Email</span>
+                  </div>
+                  <input
+                    {...field}
+                    type="email"
+                    placeholder="Enter your email address"
+                    className="input input-bordered"
+                    required
+                  />
+                </label>
+              );
+            }}
           />
           <Controller
             name="password"
             control={loginForm.control}
             render={({ field }) => (
-              <Input
-                label="Password"
-                type="password"
-                placeholder="Your password"
-                field={field}
-              />
+              <label className="form-control">
+                <div className="label">
+                  <span className="label-text">Password</span>
+                </div>
+                <input
+                  {...field}
+                  type="password"
+                  placeholder="Enter your password"
+                  className="input input-bordered"
+                  required
+                />
+              </label>
             )}
           />
-          <button type="submit">Login</button>
+          <button className="btn btn-accent mt-4 w-1/2 self-center">
+            Login
+          </button>
         </form>
       </FormProvider>
     </div>
-  );
-}
-
-type TInputProps = {
-  label: string;
-  type: React.HTMLInputTypeAttribute;
-  placeholder: string;
-  field: ControllerRenderProps<TLoginForm, keyof TLoginForm>;
-  classes?: string | undefined;
-};
-
-function Input(props: TInputProps) {
-  return (
-    <label className="form-control">
-      <div className="label">
-        <span className="label-text">{props.label}</span>
-      </div>
-      <input
-        {...props.field}
-        type={props.type}
-        placeholder={props.placeholder}
-        className={cn("input input-bordered", props.classes)}
-      />
-    </label>
   );
 }
