@@ -2,7 +2,7 @@ import { createInsertSchema } from "drizzle-zod";
 import z from "zod";
 import { user } from "../../db/schemas/user";
 
-export const ZCreateUserSchema = createInsertSchema(user, {
+const ZCreateUserSchema = createInsertSchema(user, {
   username: (schema) =>
     schema.username.min(1, {
       message: "Username must be at least 1 character long",
@@ -17,7 +17,6 @@ export const ZCreateUserSchema = createInsertSchema(user, {
     }),
 });
 
-// For validation on frontend forms
 export const ZSignupUserSchemaFormValidation = ZCreateUserSchema.extend({
   password_confirmation: z.string(),
 })

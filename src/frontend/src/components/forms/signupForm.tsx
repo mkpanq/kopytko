@@ -4,25 +4,27 @@ import {
   FormProvider,
   Controller,
 } from "react-hook-form";
+import {
+  TSignupUserSchema,
+  ZSignupUserSchemaFormValidation,
+} from "../../../../backend/shared/schemas/user";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-// TODO: Add Zod-validator with drizzle models later !
-type TSignupForm = {
-  username: string;
-  email: string;
-  password: string;
-};
-
+// TODO: Prevent from layout shifting when error messages are displayed
 export function SignupForm() {
-  const signupForm = useForm<TSignupForm>({
+  const signupForm = useForm<TSignupUserSchema>({
     // resolver: TODO: Add with ZOD !
+    resolver: zodResolver(ZSignupUserSchemaFormValidation),
     defaultValues: {
       username: "",
       email: "",
       password: "",
+      password_confirmation: "",
     },
   });
 
-  const onSubmit: SubmitHandler<TSignupForm> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<TSignupUserSchema> = (data) =>
+    console.log(data);
 
   return (
     <div className="flex flex-col gap-5 mx-auto">
@@ -47,6 +49,13 @@ export function SignupForm() {
                     className="input input-bordered"
                     required
                   />
+                  {signupForm.formState.errors.username && (
+                    <div className="label">
+                      <span className="label-text-alt text-red-600">
+                        {signupForm.formState.errors.username.message}
+                      </span>
+                    </div>
+                  )}
                 </label>
               );
             }}
@@ -67,6 +76,13 @@ export function SignupForm() {
                     className="input input-bordered"
                     required
                   />
+                  {signupForm.formState.errors.email && (
+                    <div className="label">
+                      <span className="label-text-alt text-red-600">
+                        {signupForm.formState.errors.email.message}
+                      </span>
+                    </div>
+                  )}
                 </label>
               );
             }}
@@ -86,6 +102,41 @@ export function SignupForm() {
                   className="input input-bordered"
                   required
                 />
+                {signupForm.formState.errors.password && (
+                  <div className="label">
+                    <span className="label-text-alt text-red-600">
+                      {signupForm.formState.errors.password.message}
+                    </span>
+                  </div>
+                )}
+              </label>
+            )}
+          />
+          <Controller
+            name="password_confirmation"
+            control={signupForm.control}
+            render={({ field }) => (
+              <label className="form-control">
+                <div className="label">
+                  <span className="label-text">Password confirmation</span>
+                </div>
+                <input
+                  {...field}
+                  type="password"
+                  placeholder="Confirm your password"
+                  className="input input-bordered"
+                  required
+                />
+                <div className="label">
+                  {signupForm.formState.errors.password_confirmation && (
+                    <span className="label-text-alt text-red-600">
+                      {
+                        signupForm.formState.errors.password_confirmation
+                          .message
+                      }
+                    </span>
+                  )}
+                </div>
               </label>
             )}
           />

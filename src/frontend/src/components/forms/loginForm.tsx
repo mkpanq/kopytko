@@ -3,24 +3,24 @@ import {
   SubmitHandler,
   FormProvider,
   Controller,
+  useFormState,
 } from "react-hook-form";
-
-// TODO: Add Zod-validator with drizzle models later !
-type TLoginForm = {
-  email: string;
-  password: string;
-};
+import {
+  TLoginUserSchema,
+  ZLoginUserSchemaFormValidation,
+} from "../../../../backend/shared/schemas/user";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export function LoginForm() {
-  const loginForm = useForm<TLoginForm>({
-    // resolver: TODO: Add with ZOD !
+  const loginForm = useForm<TLoginUserSchema>({
+    resolver: zodResolver(ZLoginUserSchemaFormValidation),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit: SubmitHandler<TLoginForm> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<TLoginUserSchema> = (data) => console.log(data);
 
   return (
     <div className="flex flex-col gap-5 mx-auto">
