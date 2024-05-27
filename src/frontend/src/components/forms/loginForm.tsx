@@ -23,8 +23,7 @@ export function LoginForm() {
   const onSubmit: SubmitHandler<TLoginForm> = (data) => console.log(data);
 
   return (
-    <div className="flex flex-col gap-5 mx-auto max-w-xl">
-      <div className="text-xl">Log in</div>
+    <div className="flex flex-col gap-5 mx-auto">
       <FormProvider {...loginForm}>
         <form
           onSubmit={loginForm.handleSubmit(onSubmit)}
