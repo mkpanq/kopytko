@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { rootRouter } from "./routes/_router";
+import { rootRouter } from "./router/root";
 import BACKEND_ENVS from "../env/backend";
 
 const API_BASE_PATH = BACKEND_ENVS.API_BASE_PATH;
