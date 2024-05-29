@@ -2,15 +2,11 @@
   "private": true,
   "scripts": {
     "dev": "dotenv -- turbo run dev",
-    "build": "turbo run build",
+    "build": "dotenv -- turbo run build",
     "db:migrate": "dotenv -- turbo run db:migrate --experimental-ui"
   },
   "dependencies": {
     "dotenv-cli": "^7.4.2",
-    "turbo": "^1.13.3",
-    "zod": "^3.23.8"
-  },
-  "devDependencies": {
-    "@types/node": "^20.11.17"
+    "turbo": "^1.13.3"
   }
 }

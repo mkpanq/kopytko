@@ -14,13 +14,6 @@ importers:
       turbo:
         specifier: ^1.13.3
         version: 1.13.3
-      zod:
-        specifier: ^3.23.8
-        version: 3.23.8
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.17
-        version: 20.12.12
 
   src/backend:
     dependencies:
@@ -39,7 +32,13 @@ importers:
       postgres:
         specifier: ^3.4.4
         version: 3.4.4
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
     devDependencies:
+      '@types/node':
+        specifier: ^20.11.17
+        version: 20.12.12
       drizzle-kit:
         specifier: ^0.21.4
         version: 0.21.4
@@ -70,6 +69,9 @@ importers:
       tailwind-merge:
         specifier: ^2.3.0
         version: 2.3.0
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
     devDependencies:
       '@tanstack/router-devtools':
         specifier: ^1.34.0
@@ -77,6 +79,9 @@ importers:
       '@tanstack/router-vite-plugin':
         specifier: ^1.33.12
         version: 1.33.12(vite@5.2.11(@types/node@20.12.12))
+      '@types/node':
+        specifier: ^20.11.17
+        version: 20.12.12
       '@types/react':
         specifier: ^18.2.66
         version: 18.3.3
@@ -114,7 +119,7 @@ importers:
         specifier: ^3.4.3
         version: 3.4.3
       typescript:
-        specifier: ^5.2.2
+        specifier: ^5.4.5
         version: 5.4.5
       vite:
         specifier: ^5.2.0
