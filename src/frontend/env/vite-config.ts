@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// TODO: This file should be treated differently - this config is needed during startup
 // Configuration for vite.config.ts during server start
 const VITE_CONFIG_ENVS = z
   .object({

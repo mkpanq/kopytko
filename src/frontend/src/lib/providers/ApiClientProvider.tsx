@@ -1,7 +1,7 @@
 import { createContext } from "react";
-import { rpcApiClient } from "../../../../backend/shared/apiClient";
+import RPC_API_CLIENT from "../../../../backend/shared/apiClient";
 
-export const ApiClientContext = createContext(rpcApiClient);
+export const ApiClientContext = createContext(RPC_API_CLIENT);
 
 export const ApiClientProvider = ({
   children,
@@ -9,7 +9,7 @@ export const ApiClientProvider = ({
   children: React.ReactNode;
 }) => {
   return (
-    <ApiClientContext.Provider value={rpcApiClient}>
+    <ApiClientContext.Provider value={RPC_API_CLIENT}>
       {children}
     </ApiClientContext.Provider>
   );
