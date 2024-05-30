@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "dotenv -- turbo run dev",
     "build": "dotenv -- turbo run build",
-    "db:migrate": "dotenv -- turbo run db:migrate --experimental-ui"
+    "db:migrate": "dotenv -- turbo run db:migrate --experimental-ui",
+    "db:seed": "dotenv -- turbo run db:seed --no-cache"
   },
   "dependencies": {
     "dotenv-cli": "^7.4.2",

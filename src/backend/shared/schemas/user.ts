@@ -2,7 +2,7 @@ import { createInsertSchema } from "drizzle-zod";
 import z from "zod";
 import { user } from "../../db/schemas/user";
 
-const ZCreateUserSchema = createInsertSchema(user, {
+export const ZCreateUserSchema = createInsertSchema(user, {
   username: (schema) =>
     schema.username.min(1, {
       message: "Username must be at least 1 character long",

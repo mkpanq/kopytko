@@ -8,7 +8,8 @@
     "dev": "tsx watch ./src/index.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:introspect": "drizzle-kit introspect"
+    "db:introspect": "drizzle-kit introspect",
+    "db:seed": "tsx ./db/seed.ts"
   },
   "dependencies": {
     "@hono/node-server": "^1.11.1",
@@ -19,8 +20,9 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@types/node": "^20.11.17",
     "drizzle-kit": "^0.21.4",
-    "tsx": "^4.7.1",
-    "@types/node": "^20.11.17"
+    "tsx": "^4.7.1"
   }
 }
