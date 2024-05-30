@@ -8,5 +8,5 @@ export const useApiClient = () => {
     throw new Error("No ApiClient set, use ApiClientProvider to set one");
   }
 
-  return client;
+  return client.api;
 };
