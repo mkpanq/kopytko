@@ -27,11 +27,7 @@ function Public() {
 
   return (
     <div>
-      <h1>Public</h1>
-      <p>{data.publicMessage}</p>
-
-      <h1>Auth</h1>
-      <p>{data.authUserMessage}</p>
+      <p>{data}</p>
     </div>
   );
 }
