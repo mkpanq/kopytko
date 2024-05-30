@@ -13,7 +13,7 @@ function Public() {
     queryKey: ["publicData"],
     queryFn: async () => {
       const res = await apiClient.public.$get();
-      return await res.json();
+      return await res.text();
     },
   });
 
