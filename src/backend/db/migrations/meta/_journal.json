@@ -29,6 +29,13 @@
       "when": 1717075159512,
       "tag": "0003_jittery_kulan_gath",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1717080346933,
+      "tag": "0004_military_tarantula",
+      "breakpoints": true
     }
   ]
 }

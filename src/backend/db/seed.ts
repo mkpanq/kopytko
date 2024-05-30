@@ -15,13 +15,13 @@ const seedDatabase = async () => {
 
 const seedUsers = async () => {
   console.log("Seeding users...");
-  const generatedUsers: User[] = validateAndInsertUsers();
+  const generatedUsers: User[] = generateAndParseUsers();
 
   console.log(`Seeding ${generatedUsers.length} validated users...`);
   await db.insert(user).values(generatedUsers).returning();
 };
 
-const validateAndInsertUsers = (amount = DEFAULT_USER_AMOUNT): User[] => {
+const generateAndParseUsers = (amount = DEFAULT_USER_AMOUNT): User[] => {
   const users = Array.from({ length: amount }, () => ({
     username: faker.internet.userName(),
     email: faker.internet.email(),
@@ -40,6 +40,9 @@ const validateAndInsertUsers = (amount = DEFAULT_USER_AMOUNT): User[] => {
 
   return validUsers;
 };
+
+// TODO: Need to generate Issues with and without ID
+const generateAndParseIssues = () => {};
 
 seedDatabase().finally(async () => {
   console.log("Seeding done!");
