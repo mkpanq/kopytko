@@ -3,6 +3,7 @@ import z from "zod";
 import { user } from "../../db/schemas/user";
 
 export const ZCreateUserSchema = createInsertSchema(user, {
+  id: z.coerce.number().optional(),
   username: (schema) =>
     schema.username.min(1, {
       message: "Username must be at least 1 character long",

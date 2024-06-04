@@ -43,6 +43,13 @@
       "when": 1717488231948,
       "tag": "0005_numerous_the_executioner",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1717490709839,
+      "tag": "0006_premium_agent_brand",
+      "breakpoints": true
     }
   ]
 }

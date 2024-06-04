@@ -5,9 +5,7 @@ export const issue = pgTable("issue", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   description: text("description").notNull(),
-  userId: integer("user_id")
-    .references(() => user.id)
-    .notNull(),
+  userId: integer("user_id").references(() => user.id),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
