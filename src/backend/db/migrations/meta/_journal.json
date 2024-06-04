@@ -5,50 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1716836666868,
-      "tag": "0000_outstanding_blonde_phantom",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1716836685634,
-      "tag": "0001_shiny_skin",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1717073920670,
-      "tag": "0002_glamorous_bedlam",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1717075159512,
-      "tag": "0003_jittery_kulan_gath",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "6",
-      "when": 1717080346933,
-      "tag": "0004_military_tarantula",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "6",
-      "when": 1717488231948,
-      "tag": "0005_numerous_the_executioner",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "6",
-      "when": 1717490709839,
-      "tag": "0006_premium_agent_brand",
+      "when": 1717491406507,
+      "tag": "0000_wealthy_peter_quill",
       "breakpoints": true
     }
   ]
