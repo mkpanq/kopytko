@@ -1,4 +1,4 @@
 import { Hono } from "hono";
-import { publicDataRouter } from "./routes/public";
+import { issuesDataRouter } from "./routes/issues";
 
-export const rootRouter = new Hono().route("/public", publicDataRouter);
+export const rootRouter = new Hono().route("/issues", issuesDataRouter);
