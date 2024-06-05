@@ -27,7 +27,16 @@ export function SignupForm() {
 
   const onSubmit: SubmitHandler<TSignupUserSchema> = async (data) => {
     const response = await apiClient.auth.signup.$post({ json: data });
-    console.log(response);
+    if (response.ok) {
+      console.log("User created successfully - should redirect !");
+      return;
+    } else {
+      const message = await response.text();
+      signupForm.setError("root.api", {
+        message: message,
+        type: response.status.toString(),
+      });
+    }
   };
 
   return (
@@ -37,6 +46,13 @@ export function SignupForm() {
           onSubmit={signupForm.handleSubmit(onSubmit)}
           className="flex flex-col gap-4 w-full"
         >
+          {signupForm.formState.errors.root && (
+            <div className="label">
+              <span className="label-text-alt text-red-600">
+                {signupForm.formState.errors.root.api.message}
+              </span>
+            </div>
+          )}
           <Controller
             name="username"
             control={signupForm.control}
