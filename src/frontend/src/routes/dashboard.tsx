@@ -2,17 +2,17 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useApiClient } from "../lib/hooks/useApiClient";
 
-export const Route = createFileRoute("/issues")({
-  component: Issues,
+export const Route = createFileRoute("/dashboard")({
+  component: Dashboard,
 });
 
-function Issues() {
+function Dashboard() {
   const apiClient = useApiClient();
 
   const { status, data, error } = useQuery({
-    queryKey: ["issuesData"],
+    queryKey: ["dashboardData"],
     queryFn: async () => {
-      const res = await apiClient.issues.$get();
+      const res = await apiClient.dashboard.$get();
       return await res.text();
     },
   });

@@ -11,6 +11,7 @@ import {
 import { TInsertUser, TSelectUser } from "../../../shared/schemas/user";
 import { HTTPException } from "hono/http-exception";
 import { authorizeUser, saveUser } from "../../services/users/users.service";
+import { setCookie } from "hono/cookie";
 
 // Signup -> Check if user can be created and if credentials and data is OK, then create, encode and return JWT token
 // Login -> Check if user exists and if credentials are OK, then create, encode and return JWT token
@@ -33,6 +34,7 @@ export const authRouter = new Hono()
       }
     }
   )
+  // TODO: Remember about CSRF/XSRF attack
   .post(
     "/login",
     zValidator("json", ZLoginUserSchemaFormValidation),
@@ -40,6 +42,13 @@ export const authRouter = new Hono()
       const loginData = c.req.valid("json");
       try {
         const token: string = await authorizeUser(loginData);
+
+        setCookie(c, "token", token, {
+          httpOnly: true,
+          maxAge: 1000,
+          expires: new Date(Date.UTC(2000, 11, 24, 10, 30, 59, 900)),
+        });
+
         return c.text(token);
       } catch (err) {
         if (err instanceof BadCredentials) {

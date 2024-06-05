@@ -27,8 +27,8 @@ export function LoginForm() {
     const response = await apiClient.auth.login.$post({ json: data });
     if (response.ok) {
       const token = await response.text();
-      // TODO: Setting JWT in http only cookie ! Below is wrong !
-      // localStorage.setItem("token", token);
+      console.log(token);
+      // TODO: Should we save user data to localstorage ? Maybe just userID ?
       return;
     } else {
       const message = await response.text();
