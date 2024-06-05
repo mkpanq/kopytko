@@ -2,12 +2,17 @@ import {
   findUserByEmail,
   insertUsers,
 } from "../../../db/repositories/user.repository";
-import { T_I_User, T_S_User } from "../../../db/schemas";
-import { UserAlreadyExistsError } from "./errors";
-import { generateHash } from "./utils";
+import {
+  TInsertUser,
+  TLoginUser,
+  TSelectUser,
+} from "../../../shared/schemas/user";
+import { BadCredentials, UserAlreadyExistsError } from "./errors";
+import { generateHash, validateHash } from "./utils";
 
-export async function saveUser(userData: T_I_User): Promise<T_S_User[]> {
-  if (await _userExists(userData.email)) throw new UserAlreadyExistsError();
+export async function saveUser(userData: TInsertUser): Promise<TSelectUser[]> {
+  const user = await findUserByEmail(userData.email);
+  if (user.length) throw new UserAlreadyExistsError();
 
   const hashedPassword = await generateHash(userData.password);
   const hashedUserData = { ...userData, password: hashedPassword };
@@ -15,7 +20,17 @@ export async function saveUser(userData: T_I_User): Promise<T_S_User[]> {
   return await insertUsers(hashedUserData);
 }
 
-async function _userExists(email: string): Promise<boolean> {
-  const existingUser = await findUserByEmail(email);
-  return Boolean(existingUser.length);
+export async function authorizeUser(
+  userData: TLoginUser
+): Promise<TSelectUser> {
+  const user = await findUserByEmail(userData.email);
+  if (!user.length) throw new BadCredentials();
+
+  const isPasswordCorrect = await validateHash(
+    userData.password,
+    user[0].password
+  );
+  if (!isPasswordCorrect) throw new BadCredentials();
+
+  return user[0];
 }

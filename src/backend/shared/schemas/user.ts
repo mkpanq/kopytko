@@ -39,3 +39,7 @@ export const ZLoginUserSchemaFormValidation = ZCreateUserSchema.pick({
 
 export type TLoginUserSchema = z.infer<typeof ZLoginUserSchemaFormValidation>;
 export type TSignupUserSchema = z.infer<typeof ZSignupUserSchemaFormValidation>;
+
+export type TSelectUser = typeof user.$inferSelect;
+export type TInsertUser = typeof user.$inferInsert;
+export type TLoginUser = Pick<TSelectUser, "email" | "password">;

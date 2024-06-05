@@ -4,3 +4,10 @@ export class UserAlreadyExistsError extends Error {
     this.name = "UserAlreadyExistsError";
   }
 }
+
+export class BadCredentials extends Error {
+  constructor(message = "Wrong credentials") {
+    super(message);
+    this.name = "BadCredentials";
+  }
+}
