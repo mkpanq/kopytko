@@ -39,8 +39,8 @@ export const authRouter = new Hono()
     async (c) => {
       const loginData = c.req.valid("json");
       try {
-        const user: TSelectUser = await authorizeUser(loginData);
-        return c.json(user);
+        const token: string = await authorizeUser(loginData);
+        return c.text(token);
       } catch (err) {
         if (err instanceof BadCredentials) {
           throw new HTTPException(401, { message: err.message });

@@ -22,10 +22,13 @@ export function LoginForm() {
     },
   });
 
+  // TODO: React Query ?
   const onSubmit: SubmitHandler<TLoginUserSchema> = async (data) => {
     const response = await apiClient.auth.login.$post({ json: data });
     if (response.ok) {
-      console.log("User logged successfully - should redirect !");
+      const token = await response.text();
+      // TODO: Setting JWT in http only cookie ! Below is wrong !
+      // localStorage.setItem("token", token);
       return;
     } else {
       const message = await response.text();

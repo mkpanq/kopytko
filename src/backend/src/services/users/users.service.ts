@@ -6,31 +6,38 @@ import {
   TInsertUser,
   TLoginUser,
   TSelectUser,
+  TTokenUser,
 } from "../../../shared/schemas/user";
+import { generateJWTToken } from "../jwt/jwt.service";
 import { BadCredentials, UserAlreadyExistsError } from "./errors";
-import { generateHash, validateHash } from "./utils";
+import {
+  generatePasswordHash,
+  transformUserDataToTokenDataFormat,
+  validatePasswordHash,
+} from "./utils";
 
 export async function saveUser(userData: TInsertUser): Promise<TSelectUser[]> {
   const user = await findUserByEmail(userData.email);
   if (user.length) throw new UserAlreadyExistsError();
 
-  const hashedPassword = await generateHash(userData.password);
+  const hashedPassword = await generatePasswordHash(userData.password);
   const hashedUserData = { ...userData, password: hashedPassword };
 
   return await insertUsers(hashedUserData);
 }
 
-export async function authorizeUser(
-  userData: TLoginUser
-): Promise<TSelectUser> {
+export async function authorizeUser(userData: TLoginUser): Promise<string> {
   const user = await findUserByEmail(userData.email);
   if (!user.length) throw new BadCredentials();
 
-  const isPasswordCorrect = await validateHash(
+  const isPasswordCorrect = await validatePasswordHash(
     userData.password,
     user[0].password
   );
   if (!isPasswordCorrect) throw new BadCredentials();
 
-  return user[0];
+  const tokenUserData = transformUserDataToTokenDataFormat(user[0]);
+  const authToken = await generateJWTToken(tokenUserData);
+
+  return authToken;
 }
