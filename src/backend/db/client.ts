@@ -10,4 +10,4 @@ const client = postgres({
   database: DATABASE_ENVS.DATABASE_NAME,
 });
 
-export const dbClient = drizzle(client);
+export const dbClient = drizzle(client, { logger: true });
