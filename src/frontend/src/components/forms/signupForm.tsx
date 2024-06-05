@@ -9,11 +9,13 @@ import {
   ZSignupUserSchemaFormValidation,
 } from "../../../../backend/shared/schemas/user";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useApiClient } from "../../lib/hooks/useApiClient";
 
 // TODO: Prevent from layout shifting when error messages are displayed
 export function SignupForm() {
+  const apiClient = useApiClient();
+
   const signupForm = useForm<TSignupUserSchema>({
-    // resolver: TODO: Add with ZOD !
     resolver: zodResolver(ZSignupUserSchemaFormValidation),
     defaultValues: {
       username: "",
@@ -23,8 +25,10 @@ export function SignupForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<TSignupUserSchema> = (data) =>
-    console.log(data);
+  const onSubmit: SubmitHandler<TSignupUserSchema> = async (data) => {
+    const response = await apiClient.auth.signup.$post({ json: data });
+    console.log(response);
+  };
 
   return (
     <div className="flex flex-col gap-5 mx-auto">

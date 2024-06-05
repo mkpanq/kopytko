@@ -1,7 +1,6 @@
 import { Hono } from "hono";
-import { issuesDataRouter } from "./routes/issues";
-import { authRouter } from "./routes/auth";
+import { authRouter, issuesDataRouter } from "./routes";
 
 export const rootRouter = new Hono()
   .route("/issues", issuesDataRouter)
-  .route("/", authRouter);
+  .route("/auth", authRouter);

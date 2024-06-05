@@ -5,15 +5,13 @@ import { UserAlreadyExistsError } from "../../services/users/errors";
 import { T_I_User, T_S_User } from "../../../db/schemas";
 import { HTTPException } from "hono/http-exception";
 import { saveUser } from "../../services/users/users.service";
-const AUTH_BASEPATH = "/auth";
-export const authRouter = new Hono().basePath(AUTH_BASEPATH);
 
 // Signup -> Check if user can be created and if credentials and data is OK, then create, encode and return JWT token
 // Login -> Check if user exists and if credentials are OK, then create, encode and return JWT token
 // Logout -> Destroy token
 // First - just verify and create user in database, without creating any JWT token session
 
-authRouter.post(
+export const authRouter = new Hono().post(
   "/signup",
   zValidator("json", ZSignupUserSchemaFormValidation),
   async (c) => {
