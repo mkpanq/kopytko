@@ -1,9 +1,12 @@
 import { createContext, useState } from "react";
-import { TTokenUser } from "../../../../backend/shared/schemas/user";
+import {
+  TCurrentUser,
+  TTokenUser,
+} from "../../../../backend/shared/schemas/user";
 import { useApiClient } from "../hooks/useApiClient";
 
 export const CurrentUserContext = createContext<{
-  currentUser: TTokenUser | Record<string, never>;
+  currentUser: TCurrentUser;
   fetchCurrentUser: () => Promise<void>;
 }>({
   currentUser: {},
@@ -16,9 +19,7 @@ export const CurrentUserProvider = ({
   children: React.ReactNode;
 }) => {
   const apiClient = useApiClient();
-  const [currentUser, setCurrentUser] = useState<
-    TTokenUser | Record<string, never>
-  >({});
+  const [currentUser, setCurrentUser] = useState<TCurrentUser>({});
 
   const fetchCurrentUser = async () => {
     const response = await apiClient.me.$get();

@@ -5,7 +5,5 @@ export function transformUserDataToTokenDataFormat(
 ): TTokenUser {
   return {
     id: user.id,
-    email: user.email,
-    username: user.username,
   };
 }
