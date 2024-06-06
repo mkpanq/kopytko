@@ -8,7 +8,7 @@ export const API_BASE_PATH = "/api";
 // TODO: CORS settings !
 // TODO: XSRF settins !
 const app = new Hono().use(logger());
-const router = app.basePath(API_BASE_PATH).route("/", rootRouter);
+export const router = app.basePath(API_BASE_PATH).route("/", rootRouter);
 
 export default app;
 export type ApiClientType = typeof router;
