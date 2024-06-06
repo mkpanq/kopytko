@@ -43,4 +43,4 @@ export type TSignupUserSchema = z.infer<typeof ZSignupUserSchemaFormValidation>;
 export type TSelectUser = typeof user.$inferSelect;
 export type TInsertUser = typeof user.$inferInsert;
 export type TLoginUser = Pick<TSelectUser, "email" | "password">;
-export type TTokenUser = Pick<TSelectUser, "id" | "email" | "username">;
+export type TTokenUser = Pick<TSelectUser, "id">;

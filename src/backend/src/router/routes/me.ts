@@ -12,8 +12,11 @@ export const meRouter = new Hono()
     })
   )
   .get("/", (c) => {
-    const payload: TTokenUser = c.get("jwtPayload");
-    return c.json(payload);
+    const payload = c.get("jwtPayload");
+    const meData: TTokenUser = {
+      id: payload.id,
+    };
+    return c.json(meData);
   });
 
 export default meRouter;

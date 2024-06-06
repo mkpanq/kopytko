@@ -14,7 +14,11 @@ function Index() {
 
   return (
     <div>
-      <p>{currentUser?.email}</p>
+      <p>
+        {currentUser.id
+          ? `Hello user with id ${currentUser.id}`
+          : "No user active !"}
+      </p>
     </div>
   );
 }
