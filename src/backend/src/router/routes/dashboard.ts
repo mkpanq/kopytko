@@ -7,7 +7,7 @@ export const dashboardRouter = new Hono()
     "/*",
     jwt({
       secret: AUTH_ENVS.AUTH_SECRET,
-      cookie: "token",
+      cookie: AUTH_ENVS.AUTH_TOKEN_NAME,
     })
   )
   .get("/", (c) => {

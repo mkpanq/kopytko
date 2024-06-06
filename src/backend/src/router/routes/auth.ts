@@ -34,7 +34,6 @@ export const authRouter = new Hono()
       }
     }
   )
-  // TODO: Remember about CSRF/XSRF attack
   .post(
     "/login",
     zValidator("json", ZLoginUserSchemaFormValidation),
