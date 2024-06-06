@@ -18,7 +18,7 @@ import { setAuthCookie } from "../../services/jwt/cookie.service";
 // Logout -> Destroy token
 // First - just verify and create user in database, without creating any JWT token session
 
-export const authRouter = new Hono()
+const authRouter = new Hono()
   .post(
     "/signup",
     zValidator("json", ZSignupUserSchemaFormValidation),
@@ -51,3 +51,5 @@ export const authRouter = new Hono()
       }
     }
   );
+
+export default authRouter;

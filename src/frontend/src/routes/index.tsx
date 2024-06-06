@@ -1,34 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useApiClient } from "../lib/hooks/useApiClient";
-import { useQuery } from "@tanstack/react-query";
+import { useCurrentUser } from "../lib/hooks/useCurrentUser";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
 function Index() {
-  const apiClient = useApiClient();
-
-  const { status, data, error } = useQuery({
-    queryKey: ["indexData"],
-    queryFn: async () => {
-      // TODO: For now this is the same data as for dashboard
-      const res = await apiClient.dashboard.$get();
-      return await res.text();
-    },
-  });
-
-  if (status === "pending") {
-    return <div>Loading...</div>;
-  }
-
-  if (status === "error") {
-    return <div>Error: {error.message}</div>;
-  }
+  const { currentUser, fetchCurrentUser } = useCurrentUser();
+  useEffect(() => {
+    fetchCurrentUser();
+  }, []);
 
   return (
     <div>
-      <p>{data}</p>
+      <p>{currentUser?.email}</p>
     </div>
   );
 }

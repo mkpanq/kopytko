@@ -1,8 +1,9 @@
 import { Hono } from "hono";
 import { jwt } from "hono/jwt";
 import AUTH_ENVS from "../../../env/auth";
+import { TTokenUser } from "../../../shared/schemas/user";
 
-export const dashboardRouter = new Hono()
+export const meRouter = new Hono()
   .use(
     "/*",
     jwt({
@@ -11,7 +12,8 @@ export const dashboardRouter = new Hono()
     })
   )
   .get("/", (c) => {
-    return c.text("This should be seen only for authenticated users !");
+    const payload: TTokenUser = c.get("jwtPayload");
+    return c.json(payload);
   });
 
-export default dashboardRouter;
+export default meRouter;
