@@ -10,8 +10,7 @@ function SessionButtonComponent() {
     fetchCurrentUser();
   }, []);
 
-  return isLoggedIn(currentUser) ? "Logout" : LoginButton();
-  // return <Link to="/login">{isLogged ? "Logout" : "Login"}</Link>;
+  return isLoggedIn(currentUser) ? LogoutButton() : LoginButton();
 }
 
 export default SessionButtonComponent;
@@ -20,6 +19,6 @@ function LoginButton() {
   return <Link to="/login">Login</Link>;
 }
 
-// function LogoutButton() {
-//   return <Link to="/logout">Logout</Link>;
-// }
+function LogoutButton() {
+  return <Link to="/logout">Logout</Link>;
+}

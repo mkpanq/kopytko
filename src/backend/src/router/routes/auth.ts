@@ -6,12 +6,15 @@ import {
 } from "../../../shared/schemas/user";
 import {
   BadCredentials,
+  LogoutError,
   UserAlreadyExistsError,
 } from "../../services/users/errors";
 import { TInsertUser } from "../../../shared/schemas/user";
 import { HTTPException } from "hono/http-exception";
 import { loginUser, signupUser } from "../../services/users/users.service";
 import { setAuthCookie } from "../../services/jwt/cookie.service";
+import { deleteCookie } from "hono/cookie";
+import AUTH_ENVS from "../../../env/auth";
 
 // Signup -> Check if user can be created and if credentials and data is OK, then create, encode and return JWT token
 // Login -> Check if user exists and if credentials are OK, then create, encode and return JWT token
@@ -50,6 +53,17 @@ const authRouter = new Hono()
         }
       }
     }
-  );
+  )
+  .delete("/logout", async (c) => {
+    try {
+      const deletedCookie = deleteCookie(c, AUTH_ENVS.AUTH_TOKEN_NAME);
+      if (!deletedCookie) throw new LogoutError();
+      return c.text("Logout successful");
+    } catch (err) {
+      if (err instanceof LogoutError) {
+        throw new HTTPException(404, { message: err.message });
+      }
+    }
+  });
 
 export default authRouter;

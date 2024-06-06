@@ -13,6 +13,7 @@ export const CurrentUserContext = createContext<{
   fetchCurrentUser: async () => {},
 });
 
+// TODO: Maybe use tanstack router context ?
 export const CurrentUserProvider = ({
   children,
 }: {

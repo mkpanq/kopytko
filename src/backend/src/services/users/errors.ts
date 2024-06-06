@@ -11,3 +11,10 @@ export class BadCredentials extends Error {
     this.name = "BadCredentials";
   }
 }
+
+export class LogoutError extends Error {
+  constructor(message = "Cannot find session cookie") {
+    super(message);
+    this.name = "LogoutError";
+  }
+}

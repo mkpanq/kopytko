@@ -19,15 +19,15 @@ declare module "@tanstack/react-router" {
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("app")!).render(
-  <React.StrictMode>
-    <AppEnvProvider>
-      <ApiClientProvider>
-        <QueryClientProvider client={queryClient}>
-          <CurrentUserProvider>
-            <RouterProvider router={router} />
-          </CurrentUserProvider>
-        </QueryClientProvider>
-      </ApiClientProvider>
-    </AppEnvProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <AppEnvProvider>
+    <ApiClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <CurrentUserProvider>
+          <RouterProvider router={router} />
+        </CurrentUserProvider>
+      </QueryClientProvider>
+    </ApiClientProvider>
+  </AppEnvProvider>
+  // </React.StrictMode>
 );
