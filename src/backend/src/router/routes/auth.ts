@@ -8,9 +8,9 @@ import {
   BadCredentials,
   UserAlreadyExistsError,
 } from "../../services/users/errors";
-import { TInsertUser, TSelectUser } from "../../../shared/schemas/user";
+import { TInsertUser } from "../../../shared/schemas/user";
 import { HTTPException } from "hono/http-exception";
-import { authorizeUser, saveUser } from "../../services/users/users.service";
+import { loginUser, signupUser } from "../../services/users/users.service";
 import { setAuthCookie } from "../../services/jwt/cookie.service";
 
 // Signup -> Check if user can be created and if credentials and data is OK, then create, encode and return JWT token
@@ -25,8 +25,9 @@ export const authRouter = new Hono()
     async (c) => {
       const signupData: TInsertUser = c.req.valid("json");
       try {
-        const newUser: TSelectUser[] = await saveUser(signupData);
-        return c.json(newUser);
+        const authToken: string = await signupUser(signupData);
+        setAuthCookie(c, authToken);
+        return c.text("Signup successful");
       } catch (err) {
         if (err instanceof UserAlreadyExistsError) {
           throw new HTTPException(409, { message: err.message });
@@ -40,9 +41,9 @@ export const authRouter = new Hono()
     async (c) => {
       const loginData = c.req.valid("json");
       try {
-        const token: string = await authorizeUser(loginData);
-        setAuthCookie(c, token);
-        return c.text(token);
+        const authToken: string = await loginUser(loginData);
+        setAuthCookie(c, authToken);
+        return c.text("Login successful");
       } catch (err) {
         if (err instanceof BadCredentials) {
           throw new HTTPException(401, { message: err.message });

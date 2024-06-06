@@ -6,27 +6,41 @@ import {
   TInsertUser,
   TLoginUser,
   TSelectUser,
-  TTokenUser,
 } from "../../../shared/schemas/user";
-import { generateJWTToken } from "../jwt/jwt.service";
+import { generateJWTTokenForUser } from "../jwt/jwt.service";
 import { BadCredentials, UserAlreadyExistsError } from "./errors";
-import {
-  generatePasswordHash,
-  transformUserDataToTokenDataFormat,
-  validatePasswordHash,
-} from "./utils";
+import { generatePasswordHash, validatePasswordHash } from "./utils";
 
-export async function saveUser(userData: TInsertUser): Promise<TSelectUser[]> {
+export async function loginUser(userData: TLoginUser): Promise<string> {
+  const loggedUser = await _getUserFromDatabase(userData);
+  const authToken = await generateJWTTokenForUser(loggedUser);
+
+  return authToken;
+}
+
+export async function signupUser(userData: TInsertUser): Promise<string> {
+  const newUser = await _saveUserToDatabase(userData);
+  const authToken = await generateJWTTokenForUser(newUser);
+
+  return authToken;
+}
+
+async function _saveUserToDatabase(
+  userData: TInsertUser
+): Promise<TSelectUser> {
   const user = await findUserByEmail(userData.email);
   if (user.length) throw new UserAlreadyExistsError();
 
   const hashedPassword = await generatePasswordHash(userData.password);
   const hashedUserData = { ...userData, password: hashedPassword };
+  const savedUser = await insertUsers(hashedUserData);
 
-  return await insertUsers(hashedUserData);
+  return savedUser[0];
 }
 
-export async function authorizeUser(userData: TLoginUser): Promise<string> {
+async function _getUserFromDatabase(
+  userData: TLoginUser
+): Promise<TSelectUser> {
   const user = await findUserByEmail(userData.email);
   if (!user.length) throw new BadCredentials();
 
@@ -36,8 +50,5 @@ export async function authorizeUser(userData: TLoginUser): Promise<string> {
   );
   if (!isPasswordCorrect) throw new BadCredentials();
 
-  const tokenUserData = transformUserDataToTokenDataFormat(user[0]);
-  const authToken = await generateJWTToken(tokenUserData);
-
-  return authToken;
+  return user[0];
 }
