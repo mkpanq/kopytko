@@ -1,8 +1,7 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { Navbar } from "../components/navbar";
 
-// TODO: Check if there is possible to configure all routes in one, separate file and import
-// each url_path per route file
+// TODO: How to store current user session ? Should we just keep cache of /me endpoint data ?
 export const Route = createRootRoute({
   component: () => (
     <>

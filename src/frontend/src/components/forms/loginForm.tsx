@@ -10,9 +10,30 @@ import {
 } from "../../../../backend/shared/schemas/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useApiClient } from "../../lib/hooks/useApiClient";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate, useRouterState } from "@tanstack/react-router";
 
 export function LoginForm() {
   const apiClient = useApiClient();
+  const router = useRouterState();
+  const navigate = useNavigate({ from: router.location.pathname });
+
+  const mutation = useMutation({
+    mutationKey: ["login"],
+    mutationFn: async (loginData: TLoginUserSchema) => {
+      const response = await apiClient.auth.login.$post({ json: loginData });
+      if (!response.ok) throw Error(await response.text());
+    },
+    onSuccess: async () => {
+      navigate({ to: "/" });
+    },
+    onError: (error) => {
+      loginForm.setError("root.api", {
+        message: error.message,
+      });
+    },
+  });
+
   const loginForm = useForm<TLoginUserSchema>({
     resolver: zodResolver(ZLoginUserSchemaFormValidation),
     defaultValues: {
@@ -21,21 +42,8 @@ export function LoginForm() {
     },
   });
 
-  // TODO: React Query ?
-  const onSubmit: SubmitHandler<TLoginUserSchema> = async (data) => {
-    const response = await apiClient.auth.login.$post({ json: data });
-    if (response.ok) {
-      const token = await response.text();
-      console.log(token);
-      // TODO: Should we save user data to localstorage ? Maybe just userID ?
-      return;
-    } else {
-      const message = await response.text();
-      loginForm.setError("root.api", {
-        message: message,
-        type: response.status.toString(),
-      });
-    }
+  const onSubmit: SubmitHandler<TLoginUserSchema> = (data) => {
+    mutation.mutate(data);
   };
 
   return (
