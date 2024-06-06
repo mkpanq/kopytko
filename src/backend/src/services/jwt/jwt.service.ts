@@ -8,5 +8,3 @@ const secret = AUTH_ENVS.AUTH_SECRET;
 export async function generateJWTToken(data: TTokenUser): Promise<string> {
   return sign(data, secret, JWT_ALGORYTHM);
 }
-
-// TODO: Verify ? Or just use default middleware ?
