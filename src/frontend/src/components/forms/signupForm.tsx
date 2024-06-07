@@ -11,14 +11,13 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useApiClient } from "../../lib/hooks/useApiClient";
 import { useCurrentUser } from "../../lib/hooks/useCurrentUser";
-import { useNavigate, useRouter } from "@tanstack/react-router";
 import { Route } from "../../routes";
 import { useMutation } from "@tanstack/react-query";
+import { useInvalidateRouter } from "../../lib/hooks/useInvalidateRouter";
 
 // TODO: Need full refactor - Prevent from layout shifting when error messages are displayed
 export function SignupForm() {
-  const router = useRouter();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const redirect = useInvalidateRouter(Route.fullPath, "/");
 
   const apiClient = useApiClient();
   const { fetchCurrentUser } = useCurrentUser();
@@ -31,8 +30,7 @@ export function SignupForm() {
     },
     onSuccess: async () => {
       await fetchCurrentUser();
-      router.invalidate();
-      navigate({ to: "/" });
+      redirect();
     },
     onError: (error) => {
       signupForm.setError("root.api", {

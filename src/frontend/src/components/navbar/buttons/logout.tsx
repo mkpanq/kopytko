@@ -1,15 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate, useRouter } from "@tanstack/react-router";
-import { Route } from "../../../routes";
 import { useApiClient } from "../../../lib/hooks/useApiClient";
 import { useCurrentUser } from "../../../lib/hooks/useCurrentUser";
+import { useInvalidateRouter } from "../../../lib/hooks/useInvalidateRouter";
+import { Route } from "../../../routes";
 
 export function LogoutButton() {
-  const router = useRouter();
-  const navigate = useNavigate({ from: Route.fullPath });
-
   const apiClient = useApiClient();
   const { fetchCurrentUser } = useCurrentUser();
+  const redirect = useInvalidateRouter(Route.fullPath, "/");
 
   // TODO: Export mutation to separate file ! Especially with future issues calls
   const mutation = useMutation({
@@ -21,8 +19,7 @@ export function LogoutButton() {
     },
     onSuccess: async () => {
       await fetchCurrentUser();
-      router.invalidate();
-      navigate({ to: "/" });
+      redirect();
     },
   });
 
