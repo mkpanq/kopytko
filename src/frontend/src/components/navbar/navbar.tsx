@@ -1,5 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { DashboardButton } from "./buttons/dashboard";
+import {
+  PublicDashboardButton,
+  UserDashboardButton,
+} from "./buttons/dashboard";
 import { LoginButton } from "./buttons/login";
 import { useCurrentUser } from "../../lib/hooks/useCurrentUser";
 import { LogoutButton } from "./buttons/logout";
@@ -23,8 +26,13 @@ function NavbarMenuList({ isAuthenticated }: { isAuthenticated: boolean }) {
   return (
     <div className="flex-none">
       <ul className="menu menu-horizontal px-1">
+        {isAuthenticated && (
+          <li>
+            <UserDashboardButton />
+          </li>
+        )}
         <li>
-          <DashboardButton auth={isAuthenticated} />
+          <PublicDashboardButton />
         </li>
         <li>{isAuthenticated ? <LogoutButton /> : <LoginButton />}</li>
       </ul>
