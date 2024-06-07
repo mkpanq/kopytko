@@ -3,7 +3,9 @@ import { dbClient } from "./client";
 import { faker } from "@faker-js/faker";
 import { user, issue } from "./schemas";
 import { ZCreateIssueSchema } from "../shared/schemas/issue";
+import { generatePasswordHash } from "../src/services/users/utils";
 
+const DEFAULT_PASSWORD = "Password123";
 const DEFAULT_USER_AMOUNT = 3;
 const DEFAULT_ISSUE_AMOUNT_PUBLIC = 5;
 const DEFAULT_ISSUE_AMOUNT_PER_USER = 5;
@@ -18,7 +20,7 @@ const seedDatabase = async () => {
 };
 
 const seedData = async () => {
-  const users = generateUsers();
+  const users = await generateAndParseUsers();
   const issues = generateIssues(users);
 
   console.log(
@@ -54,17 +56,15 @@ const generateIssues = (users: User[]): Issue[] => {
   return [...publicIssues, ...userIssues];
 };
 
-const generateUsers = () => {
-  console.log("Generate users...");
-  return generateAndParseUsers();
-};
-
-const generateAndParseUsers = (amount = DEFAULT_USER_AMOUNT): User[] => {
+const generateAndParseUsers = async (
+  amount = DEFAULT_USER_AMOUNT
+): Promise<User[]> => {
+  const commonPassword = await generatePasswordHash(DEFAULT_PASSWORD);
   const users = Array.from({ length: amount }, () => ({
     id: faker.number.int(1000),
     username: faker.internet.userName(),
     email: faker.internet.email(),
-    password: faker.internet.password(),
+    password: commonPassword,
   }));
 
   const parsedUsers = users.map((user) => {
