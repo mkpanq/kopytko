@@ -15,6 +15,7 @@ export const CurrentUserContext = createContext<{
   fetchCurrentUser: async () => {},
 });
 
+// TODO: Think about caching - each button click, there goes request !
 export const CurrentUserProvider = ({
   children,
 }: {

@@ -16,11 +16,6 @@ import { setAuthCookie } from "../../services/jwt/cookie.service";
 import { deleteCookie } from "hono/cookie";
 import AUTH_ENVS from "../../../env/auth";
 
-// Signup -> Check if user can be created and if credentials and data is OK, then create, encode and return JWT token
-// Login -> Check if user exists and if credentials are OK, then create, encode and return JWT token
-// Logout -> Destroy token
-// First - just verify and create user in database, without creating any JWT token session
-
 const authRouter = new Hono()
   .post(
     "/signup",

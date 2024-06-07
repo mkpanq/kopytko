@@ -23,22 +23,10 @@ function NavbarMenuList({ isAuthenticated }: { isAuthenticated: boolean }) {
   return (
     <div className="flex-none">
       <ul className="menu menu-horizontal px-1">
-        {isAuthenticated ? (
-          <>
-            <li>
-              <DashboardButton />
-            </li>
-            <li>
-              <LogoutButton />
-            </li>
-          </>
-        ) : (
-          <>
-            <li>
-              <LoginButton />
-            </li>
-          </>
-        )}
+        <li>
+          <DashboardButton auth={isAuthenticated} />
+        </li>
+        <li>{isAuthenticated ? <LogoutButton /> : <LoginButton />}</li>
       </ul>
     </div>
   );
