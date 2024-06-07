@@ -1,9 +1,13 @@
 import { Hono } from "hono";
 import { rootRouter } from "./router/root";
-import { API_BASE_PATH } from "./config";
+import { logger } from "hono/logger";
 
-const app = new Hono();
-// TODO: API_BASE_PATH must be specific value, not some calculated value from .envs ! Only then types will work !
+export const API_BASE_PATH = "/api";
+
+// Check if needed !
+// TODO: CORS settings !
+// TODO: XSRF settins !
+const app = new Hono().use(logger());
 export const router = app.basePath(API_BASE_PATH).route("/", rootRouter);
 
 export default app;

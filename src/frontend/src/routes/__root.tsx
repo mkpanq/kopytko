@@ -1,14 +1,26 @@
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { Navbar } from "../components/navbar";
+import { useCurrentUser } from "../lib/hooks/useCurrentUser";
+import { useApiClient } from "../lib/hooks/useApiClient";
 
-// TODO: Check if there is possible to configure all routes in one, separate file and import
-// each url_path per route file
-export const Route = createRootRoute({
-  component: () => (
+interface RouterContext {
+  currentUser: ReturnType<typeof useCurrentUser>;
+  apiClient: ReturnType<typeof useApiClient>;
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
+  beforeLoad: async ({ context }) => {
+    context.currentUser.fetchCurrentUser();
+  },
+  component: RootComponent,
+});
+
+function RootComponent() {
+  return (
     <>
       <Navbar />
       <Outlet />
       {/* <TanStackRouterDevtools /> */}
     </>
-  ),
-});
+  );
+}

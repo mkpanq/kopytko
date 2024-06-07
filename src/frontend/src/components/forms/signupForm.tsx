@@ -9,11 +9,39 @@ import {
   ZSignupUserSchemaFormValidation,
 } from "../../../../backend/shared/schemas/user";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useApiClient } from "../../lib/hooks/useApiClient";
+import { useCurrentUser } from "../../lib/hooks/useCurrentUser";
+import { useNavigate, useRouter } from "@tanstack/react-router";
+import { Route } from "../../routes";
+import { useMutation } from "@tanstack/react-query";
 
 // TODO: Prevent from layout shifting when error messages are displayed
 export function SignupForm() {
+  const router = useRouter();
+  const navigate = useNavigate({ from: Route.fullPath });
+
+  const apiClient = useApiClient();
+  const { fetchCurrentUser } = useCurrentUser();
+
+  const mutation = useMutation({
+    mutationKey: ["signup"],
+    mutationFn: async (signupData: TSignupUserSchema) => {
+      const response = await apiClient.auth.signup.$post({ json: signupData });
+      if (!response.ok) throw Error(await response.text());
+    },
+    onSuccess: async () => {
+      await fetchCurrentUser();
+      router.invalidate();
+      navigate({ to: "/" });
+    },
+    onError: (error) => {
+      signupForm.setError("root.api", {
+        message: error.message,
+      });
+    },
+  });
+
   const signupForm = useForm<TSignupUserSchema>({
-    // resolver: TODO: Add with ZOD !
     resolver: zodResolver(ZSignupUserSchemaFormValidation),
     defaultValues: {
       username: "",
@@ -23,8 +51,9 @@ export function SignupForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<TSignupUserSchema> = (data) =>
-    console.log(data);
+  const onSubmit: SubmitHandler<TSignupUserSchema> = async (data) => {
+    mutation.mutate(data);
+  };
 
   return (
     <div className="flex flex-col gap-5 mx-auto">
@@ -33,6 +62,13 @@ export function SignupForm() {
           onSubmit={signupForm.handleSubmit(onSubmit)}
           className="flex flex-col gap-4 w-full"
         >
+          {signupForm.formState.errors.root && (
+            <div className="label">
+              <span className="label-text-alt text-red-600">
+                {signupForm.formState.errors.root.api.message}
+              </span>
+            </div>
+          )}
           <Controller
             name="username"
             control={signupForm.control}
