@@ -6,9 +6,11 @@ import { ApiClientProvider } from "./lib/providers/ApiClientProvider.tsx";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import { CurrentUserProvider } from "./lib/providers/CurrentUserProvider.tsx";
+import { useCurrentUser } from "./lib/hooks/useCurrentUser.ts";
+import { useApiClient } from "./lib/hooks/useApiClient.ts";
 
 // Tanstack Router configuration
-const router = createRouter({ routeTree });
+
 declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;
@@ -17,12 +19,27 @@ declare module "@tanstack/react-router" {
 // Tanstack Query configuration
 const queryClient = new QueryClient();
 
+const router = createRouter({
+  routeTree,
+  context: {
+    currentUser: undefined!,
+    apiClient: undefined!,
+  },
+});
+function App() {
+  const currentUser = useCurrentUser();
+  const apiClient = useApiClient();
+  return (
+    <RouterProvider router={router} context={{ currentUser, apiClient }} />
+  );
+}
+
 ReactDOM.createRoot(document.getElementById("app")!).render(
   <React.StrictMode>
     <ApiClientProvider>
       <QueryClientProvider client={queryClient}>
         <CurrentUserProvider>
-          <RouterProvider router={router} />
+          <App />
         </CurrentUserProvider>
       </QueryClientProvider>
     </ApiClientProvider>

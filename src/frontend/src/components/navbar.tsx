@@ -1,12 +1,17 @@
 import { Link } from "@tanstack/react-router";
+import { LoginButton } from "./loginButton";
 import { useCurrentUser } from "../lib/hooks/useCurrentUser";
 import { useEffect } from "react";
 
-export function Navbar() {
-  const { currentUser, fetchCurrentUser } = useCurrentUser();
+export function Navbar({
+  currentUser,
+}: {
+  currentUser: ReturnType<typeof useCurrentUser>;
+}) {
+  console.log(`Render: ${currentUser.currentUser.id}`);
 
   useEffect(() => {
-    fetchCurrentUser();
+    currentUser.fetchCurrentUser();
   }, []);
 
   return (
@@ -19,10 +24,10 @@ export function Navbar() {
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <span>CurrentUser - {currentUser?.id || `{}`}</span>
+            <span>CurrentUser - {currentUser.currentUser.id || `{}`}</span>
           </li>
           <li>
-            <Link to="/login">Login</Link>
+            <LoginButton currentUser={currentUser.currentUser} />
           </li>
         </ul>
       </div>
