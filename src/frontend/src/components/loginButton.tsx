@@ -1,28 +1,31 @@
 import { useMutation } from "@tanstack/react-query";
 import { Link, useNavigate, useRouter } from "@tanstack/react-router";
-import { useApiClient } from "../lib/hooks/useApiClient";
 import { Route } from "../routes";
-import { TCurrentUser } from "../../../backend/shared/schemas/user";
-import { isLoggedIn } from "../lib/utils";
+import { useApiClient } from "../lib/hooks/useApiClient";
+import { useCurrentUser } from "../lib/hooks/useCurrentUser";
 
-export function LoginButton({ currentUser }: { currentUser: TCurrentUser }) {
+export function LoginButton() {
   const router = useRouter();
-  const apiClient = useApiClient();
   const navigate = useNavigate({ from: Route.fullPath });
+
+  const apiClient = useApiClient();
+  const { isAuthenticated, fetchCurrentUser } = useCurrentUser();
 
   const mutation = useMutation({
     mutationKey: ["logout"],
     mutationFn: async () => {
       const response = await apiClient.auth.logout.$delete();
       if (!response.ok) throw Error(await response.text());
+      console.log("Logout !");
     },
     onSuccess: async () => {
+      await fetchCurrentUser();
       router.invalidate();
       navigate({ to: "/" });
     },
   });
 
-  return isLoggedIn(currentUser) ? (
+  return isAuthenticated ? (
     <button onClick={() => mutation.mutate()}>Logout</button>
   ) : (
     <Link to="/login">Login</Link>

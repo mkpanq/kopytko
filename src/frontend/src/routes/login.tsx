@@ -2,12 +2,11 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 import { SignupForm } from "../components/forms/signupForm";
 import { LoginForm } from "../components/forms/loginForm";
-import { isLoggedIn } from "../lib/utils";
 
 export const Route = createFileRoute("/login")({
   component: LoginPage,
   beforeLoad: ({ context }) => {
-    if (isLoggedIn(context.currentUser.currentUser)) {
+    if (context.currentUser.isAuthenticated) {
       redirect({
         to: "/",
         throw: true,

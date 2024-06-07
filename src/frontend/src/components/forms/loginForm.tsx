@@ -9,15 +9,18 @@ import {
   ZLoginUserSchemaFormValidation,
 } from "../../../../backend/shared/schemas/user";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useApiClient } from "../../lib/hooks/useApiClient";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useRouter } from "@tanstack/react-router";
 import { Route } from "../../routes";
+import { useApiClient } from "../../lib/hooks/useApiClient";
+import { useCurrentUser } from "../../lib/hooks/useCurrentUser";
 
 export function LoginForm() {
-  const apiClient = useApiClient();
   const router = useRouter();
   const navigate = useNavigate({ from: Route.fullPath });
+
+  const apiClient = useApiClient();
+  const { fetchCurrentUser } = useCurrentUser();
 
   const mutation = useMutation({
     mutationKey: ["login"],
@@ -26,6 +29,7 @@ export function LoginForm() {
       if (!response.ok) throw Error(await response.text());
     },
     onSuccess: async () => {
+      await fetchCurrentUser();
       router.invalidate();
       navigate({ to: "/" });
     },

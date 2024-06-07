@@ -2,7 +2,8 @@ import { useContext } from "react";
 import { CurrentUserContext } from "../providers/CurrentUserProvider";
 
 export const useCurrentUser = () => {
-  const { currentUser, fetchCurrentUser } = useContext(CurrentUserContext);
+  const { isAuthenticated, currentUser, fetchCurrentUser } =
+    useContext(CurrentUserContext);
 
   if (!fetchCurrentUser) {
     throw new Error(
@@ -10,5 +11,5 @@ export const useCurrentUser = () => {
     );
   }
 
-  return { currentUser, fetchCurrentUser };
+  return { isAuthenticated, currentUser, fetchCurrentUser };
 };

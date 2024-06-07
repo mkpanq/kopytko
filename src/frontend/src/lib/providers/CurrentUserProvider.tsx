@@ -6,14 +6,15 @@ import {
 import { useApiClient } from "../hooks/useApiClient";
 
 export const CurrentUserContext = createContext<{
+  isAuthenticated: boolean;
   currentUser: TCurrentUser;
   fetchCurrentUser: () => Promise<void>;
 }>({
+  isAuthenticated: false,
   currentUser: {},
   fetchCurrentUser: async () => {},
 });
 
-// TODO: Maybe use tanstack router context ?
 export const CurrentUserProvider = ({
   children,
 }: {
@@ -21,6 +22,7 @@ export const CurrentUserProvider = ({
 }) => {
   const apiClient = useApiClient();
   const [currentUser, setCurrentUser] = useState<TCurrentUser>({});
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   const fetchCurrentUser = async () => {
     const response = await apiClient.me.$get();
@@ -28,14 +30,18 @@ export const CurrentUserProvider = ({
       // if 200 OK, then set user
       const userData: TTokenUser = await response.json();
       setCurrentUser(userData);
+      setIsAuthenticated(true);
     } else {
       // if server returns 401 Unauthorized, then set user to null
       setCurrentUser({});
+      setIsAuthenticated(false);
     }
   };
 
   return (
-    <CurrentUserContext.Provider value={{ currentUser, fetchCurrentUser }}>
+    <CurrentUserContext.Provider
+      value={{ isAuthenticated, currentUser, fetchCurrentUser }}
+    >
       {children}
     </CurrentUserContext.Provider>
   );

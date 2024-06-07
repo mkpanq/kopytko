@@ -26,6 +26,7 @@ const router = createRouter({
     apiClient: undefined!,
   },
 });
+
 function App() {
   const currentUser = useCurrentUser();
   const apiClient = useApiClient();
@@ -35,13 +36,13 @@ function App() {
 }
 
 ReactDOM.createRoot(document.getElementById("app")!).render(
-  <React.StrictMode>
-    <ApiClientProvider>
-      <QueryClientProvider client={queryClient}>
-        <CurrentUserProvider>
-          <App />
-        </CurrentUserProvider>
-      </QueryClientProvider>
-    </ApiClientProvider>
-  </React.StrictMode>
+  // <React.StrictMode >
+  <ApiClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <CurrentUserProvider>
+        <App />
+      </CurrentUserProvider>
+    </QueryClientProvider>
+  </ApiClientProvider>
+  // </React.StrictMode>
 );
