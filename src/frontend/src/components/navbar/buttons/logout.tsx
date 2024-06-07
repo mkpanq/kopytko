@@ -1,16 +1,17 @@
 import { useMutation } from "@tanstack/react-query";
-import { Link, useNavigate, useRouter } from "@tanstack/react-router";
-import { Route } from "../routes";
-import { useApiClient } from "../lib/hooks/useApiClient";
-import { useCurrentUser } from "../lib/hooks/useCurrentUser";
+import { useNavigate, useRouter } from "@tanstack/react-router";
+import { Route } from "../../../routes";
+import { useApiClient } from "../../../lib/hooks/useApiClient";
+import { useCurrentUser } from "../../../lib/hooks/useCurrentUser";
 
-export function LoginButton() {
+export function LogoutButton() {
   const router = useRouter();
   const navigate = useNavigate({ from: Route.fullPath });
 
   const apiClient = useApiClient();
-  const { isAuthenticated, fetchCurrentUser } = useCurrentUser();
+  const { fetchCurrentUser } = useCurrentUser();
 
+  // TODO: Export mutation to separate file ! Especially with future issues calls
   const mutation = useMutation({
     mutationKey: ["logout"],
     mutationFn: async () => {
@@ -25,9 +26,5 @@ export function LoginButton() {
     },
   });
 
-  return isAuthenticated ? (
-    <button onClick={() => mutation.mutate()}>Logout</button>
-  ) : (
-    <Link to="/login">Login</Link>
-  );
+  return <button onClick={() => mutation.mutate()}>Logout</button>;
 }

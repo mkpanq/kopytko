@@ -1,7 +1,7 @@
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
-import { Navbar } from "../components/navbar";
 import { useCurrentUser } from "../lib/hooks/useCurrentUser";
 import { useApiClient } from "../lib/hooks/useApiClient";
+import { Navbar } from "../components/navbar/navbar";
 
 interface RouterContext {
   currentUser: ReturnType<typeof useCurrentUser>;

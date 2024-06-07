@@ -36,13 +36,13 @@ function App() {
 }
 
 ReactDOM.createRoot(document.getElementById("app")!).render(
-  // <React.StrictMode >
-  <ApiClientProvider>
-    <QueryClientProvider client={queryClient}>
-      <CurrentUserProvider>
-        <App />
-      </CurrentUserProvider>
-    </QueryClientProvider>
-  </ApiClientProvider>
-  // </React.StrictMode>
+  <React.StrictMode>
+    <ApiClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <CurrentUserProvider>
+          <App />
+        </CurrentUserProvider>
+      </QueryClientProvider>
+    </ApiClientProvider>
+  </React.StrictMode>
 );
