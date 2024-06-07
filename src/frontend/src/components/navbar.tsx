@@ -1,24 +1,28 @@
-import { useEnvs } from "../lib/hooks/useEnvs";
 import { Link } from "@tanstack/react-router";
-import SessionButtonComponent from "./sessionButton";
+import { useCurrentUser } from "../lib/hooks/useCurrentUser";
+import { useEffect } from "react";
 
 export function Navbar() {
-  const envs = useEnvs();
+  const { currentUser, fetchCurrentUser } = useCurrentUser();
+
+  useEffect(() => {
+    fetchCurrentUser();
+  }, []);
 
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
         <Link className="btn btn-ghost text-xl" to="/">
-          {envs.VITE_APPLICATION_NAME}
+          Kopytko
         </Link>
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <Link to="/issues">Issues</Link>
+            <span>CurrentUser - {currentUser?.id || `{}`}</span>
           </li>
           <li>
-            <SessionButtonComponent />
+            <Link to="/login">Login</Link>
           </li>
         </ul>
       </div>
