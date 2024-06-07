@@ -3,7 +3,7 @@ import { LoginButton } from "./loginButton";
 import { useCurrentUser } from "../lib/hooks/useCurrentUser";
 
 export function Navbar() {
-  const { currentUser } = useCurrentUser();
+  const { isAuthenticated, currentUser } = useCurrentUser();
 
   return (
     <div className="navbar bg-base-100">
@@ -15,7 +15,10 @@ export function Navbar() {
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <span>CurrentUser - {currentUser?.id || `{}`}</span>
+            <span>
+              CurrentUser- {isAuthenticated.toString()} -{" "}
+              {currentUser?.id || `{}`}
+            </span>
           </li>
           <li>
             <LoginButton />
