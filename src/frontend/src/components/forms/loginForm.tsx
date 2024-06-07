@@ -15,6 +15,7 @@ import { Route } from "../../routes";
 import { useApiClient } from "../../lib/hooks/useApiClient";
 import { useCurrentUser } from "../../lib/hooks/useCurrentUser";
 
+// TODO: Need full refactor
 export function LoginForm() {
   const router = useRouter();
   const navigate = useNavigate({ from: Route.fullPath });

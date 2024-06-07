@@ -15,7 +15,7 @@ import { useNavigate, useRouter } from "@tanstack/react-router";
 import { Route } from "../../routes";
 import { useMutation } from "@tanstack/react-query";
 
-// TODO: Prevent from layout shifting when error messages are displayed
+// TODO: Need full refactor - Prevent from layout shifting when error messages are displayed
 export function SignupForm() {
   const router = useRouter();
   const navigate = useNavigate({ from: Route.fullPath });
