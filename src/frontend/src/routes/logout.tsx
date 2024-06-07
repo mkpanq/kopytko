@@ -16,6 +16,7 @@ function LogoutComponent() {
   const apiClient = useApiClient();
   // TODO: Use mutation ?
   // TODO: FIX !
+  // onEnter ? Or redirect ?
   useEffect(() => {
     apiClient.auth.logout.$delete();
     navigate({ to: "/" });
