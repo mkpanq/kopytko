@@ -20,6 +20,9 @@ export const Route = createFileRoute("/dashboard")({
   component: Dashboard,
 });
 
+// TODO: Remove and edit issues
+// TODO: Ability to create issues for myself and public
+// TODO: Everyone can see public issues and edit them
 function Dashboard() {
   const apiClient = useApiClient();
   const data = useSuspenseQuery(issuesQueryOptions(apiClient));
