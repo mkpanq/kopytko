@@ -44,4 +44,8 @@ export type TSelectUser = typeof user.$inferSelect;
 export type TInsertUser = typeof user.$inferInsert;
 export type TLoginUser = Pick<TSelectUser, "email" | "password">;
 export type TTokenUser = Pick<TSelectUser, "id">;
+export type TTokenPayload = {
+  user: TTokenUser;
+  exp: number;
+};
 export type TCurrentUser = TTokenUser | Record<string, never>;

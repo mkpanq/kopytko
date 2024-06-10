@@ -1,28 +1,20 @@
 import {
   getIssuesByUserId,
+  getIssuesWithoutAndByUserId,
   getIssuesWithoutUserId,
 } from "../../../db/repositories/issues.repository";
-import {
-  TSelectPublicIssue,
-  TSelectUserIssue,
-} from "../../../shared/schemas/issue";
+import { TSelectIssue } from "../../../shared/schemas/issue";
 
-export async function getPublicIssues(): Promise<TSelectPublicIssue[]> {
-  const data = await getIssuesWithoutUserId();
-  const publicData: TSelectPublicIssue[] = data.map((issue) => {
-    const { userId, createdAt, updatedAt, ...rest } = issue;
-    return rest;
-  });
-  return publicData;
+export async function getPublicIssues(): Promise<TSelectIssue[]> {
+  return await getIssuesWithoutUserId();
 }
 
-export async function getUserIssues(
+export async function getUserIssues(userId: number): Promise<TSelectIssue[]> {
+  return await getIssuesByUserId(userId);
+}
+
+export async function getPublicAndUserIssues(
   userId: number
-): Promise<TSelectUserIssue[]> {
-  const data = await getIssuesByUserId(userId);
-  const userData: TSelectUserIssue[] = data.map((issue) => {
-    const { userId, createdAt, updatedAt, ...rest } = issue;
-    return rest;
-  });
-  return userData;
+): Promise<TSelectIssue[]> {
+  return await getIssuesWithoutAndByUserId(userId);
 }

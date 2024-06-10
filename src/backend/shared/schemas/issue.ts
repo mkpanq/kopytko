@@ -15,8 +15,3 @@ export const ZCreateIssueSchema = createInsertSchema(issue, {
 });
 
 export type TSelectIssue = typeof issue.$inferSelect;
-export type TSelectPublicIssue = Omit<
-  TSelectIssue,
-  "userId" | "createdAt" | "updatedAt"
->;
-export type TSelectUserIssue = TSelectPublicIssue;

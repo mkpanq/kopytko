@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { jwt } from "hono/jwt";
 import AUTH_ENVS from "../../../env/auth";
-import { TTokenUser } from "../../../shared/schemas/user";
+import { TTokenPayload, TTokenUser } from "../../../shared/schemas/user";
 
 export const meRouter = new Hono()
   .use(
@@ -12,8 +12,9 @@ export const meRouter = new Hono()
     })
   )
   .get("/", (c) => {
-    const payload: TTokenUser = c.get("jwtPayload");
-    return c.json(payload);
+    const payload: TTokenPayload = c.get("jwtPayload");
+    const userData: TTokenUser = payload.user;
+    return c.json(userData);
   });
 
 export default meRouter;

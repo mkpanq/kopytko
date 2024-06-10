@@ -1,7 +1,7 @@
 import { TSelectIssue } from "../../shared/schemas/issue";
 import { dbClient } from "../client";
 import { issue } from "../schemas";
-import { isNull, eq } from "drizzle-orm";
+import { isNull, eq, or } from "drizzle-orm";
 
 export async function getIssuesByUserId(
   userId: number
@@ -11,4 +11,13 @@ export async function getIssuesByUserId(
 
 export async function getIssuesWithoutUserId(): Promise<TSelectIssue[]> {
   return await dbClient.select().from(issue).where(isNull(issue.userId));
+}
+
+export async function getIssuesWithoutAndByUserId(
+  userId: number
+): Promise<TSelectIssue[]> {
+  return await dbClient
+    .select()
+    .from(issue)
+    .where(or(eq(issue.userId, userId), isNull(issue.userId)));
 }
