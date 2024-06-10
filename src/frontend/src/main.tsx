@@ -1,7 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { ApiClientProvider } from "./lib/providers/ApiClientProvider.tsx";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
@@ -16,29 +20,42 @@ declare module "@tanstack/react-router" {
     router: typeof router;
   }
 }
+
+export interface RouterContext {
+  currentUser: ReturnType<typeof useCurrentUser>;
+  apiClient: ReturnType<typeof useApiClient>;
+  queryClient: ReturnType<typeof useQueryClient>;
+}
+
 // Tanstack Query configuration
-const queryClient = new QueryClient();
+const reactQueryClient = new QueryClient();
 
 const router = createRouter({
   routeTree,
   context: {
     currentUser: undefined!,
     apiClient: undefined!,
+    queryClient: undefined!,
   },
 });
 
 function App() {
   const currentUser = useCurrentUser();
   const apiClient = useApiClient();
+  const queryClient = useQueryClient();
+
   return (
-    <RouterProvider router={router} context={{ currentUser, apiClient }} />
+    <RouterProvider
+      router={router}
+      context={{ currentUser, apiClient, queryClient }}
+    />
   );
 }
 
 ReactDOM.createRoot(document.getElementById("app")!).render(
   <React.StrictMode>
     <ApiClientProvider>
-      <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={reactQueryClient}>
         <CurrentUserProvider>
           <App />
         </CurrentUserProvider>

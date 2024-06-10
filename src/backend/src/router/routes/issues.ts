@@ -8,10 +8,9 @@ import { verifyJWTToken } from "../../services/jwt/jwt.service";
 import { getAuthCookie } from "../../services/jwt/cookie.service";
 import { CookieNotFound } from "../../services/jwt/errors";
 import { JwtTokenInvalid } from "hono/utils/jwt/types";
+import { TSelectIssue } from "../../../shared/schemas/issue";
 
-export const issuesDataRouter = new Hono();
-
-issuesDataRouter.get("/", async (c) => {
+const issuesDataRouter = new Hono().get("/", async (c) => {
   try {
     const token = getAuthCookie(c);
     if (!!!token) throw new CookieNotFound();
@@ -20,12 +19,12 @@ issuesDataRouter.get("/", async (c) => {
     if (!!!data) throw new JwtTokenInvalid(token);
 
     const userId = data.user.id;
-    const issues = await getPublicAndUserIssues(userId);
+    const issues: TSelectIssue[] = await getPublicAndUserIssues(userId);
 
     return c.json(issues);
   } catch (error) {
     if (error instanceof (CookieNotFound || JwtTokenInvalid)) {
-      const publicIssues = await getPublicIssues();
+      const publicIssues: TSelectIssue[] = await getPublicIssues();
       return c.json(publicIssues);
     }
   }
