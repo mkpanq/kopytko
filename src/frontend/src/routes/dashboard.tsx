@@ -2,6 +2,8 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useApiClient } from "../lib/hooks/useApiClient";
 import { TSelectIssue } from "../../../backend/shared/schemas/issue";
+import { Issue } from "../components/issue";
+import { issue } from "../../../backend/db/schemas";
 
 const issuesQueryOptions = (apiClient: ReturnType<typeof useApiClient>) => {
   return queryOptions({
@@ -27,11 +29,12 @@ function Dashboard() {
   const apiClient = useApiClient();
   const data = useSuspenseQuery(issuesQueryOptions(apiClient));
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <ul>
+    <div className="flex w-full">
+      <ul className="mx-auto">
         {data.data.map((issue) => (
-          <li key={issue.id}>{issue.title}</li>
+          <li key={issue.id}>
+            <Issue issue={issue} />
+          </li>
         ))}
       </ul>
     </div>
